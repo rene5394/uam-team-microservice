@@ -5,7 +5,7 @@ import { RabbitMQ } from './common/constants';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {});
-  for (const queue of [RabbitMQ.BalanceQueue]) {
+  for (const queue of [RabbitMQ.UserQueue]) {
     app.connectMicroservice({
       transport: Transport.RMQ,
       options: {
