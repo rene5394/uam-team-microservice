@@ -12,3 +12,11 @@ export const TeamStatus = {
   active : 0,
   inactive : 1
 }
+
+export const RequestStatus = {
+  pending : 1,
+  approved : 2,
+  denied: 3,
+  canceled: 4
+}
+
