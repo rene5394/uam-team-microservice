@@ -17,7 +17,7 @@ export class UserService {
 
     Object.keys(UserStatus).forEach(key => {
       if (key === status) {
-        statusId = UserStatus[key];        
+        statusId = UserStatus[key];
       }
     });
 
