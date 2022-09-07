@@ -1,26 +1,24 @@
 import { Injectable } from '@nestjs/common';
-import { CreateMemberDto } from './dto/create-member.dto';
-import { UpdateMemberDto } from './dto/update-member.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Member } from './entities/member.entity';
 
 @Injectable()
 export class MemberService {
-  create(createMemberDto: CreateMemberDto) {
-    return 'This action adds a new member';
+  constructor(
+    @InjectRepository(Member)
+    private readonly memberRepository: Repository<Member>
+  ) {}
+
+  async findAll() {
+    return await this.memberRepository.find();
   }
 
-  findAll() {
-    return `This action returns all member`;
+  async findOne(id: number) {
+    return await this.memberRepository.findOne({ where: { id } });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} member`;
-  }
-
-  update(id: number, updateMemberDto: UpdateMemberDto) {
-    return `This action updates a #${id} member`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} member`;
+  async findOneByEmployeeId(employeeId: number) {
+    return await this.memberRepository.findOne({ where: { employee_id: employeeId } });
   }
 }
