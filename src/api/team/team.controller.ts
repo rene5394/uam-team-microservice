@@ -15,4 +15,9 @@ export class TeamController {
   findOne(@Payload() id: number) {
     return this.teamService.findOne(id);
   }
+
+  @MessagePattern('findOneTeamUserid')
+  findOneByUserJWT(@Payload() id: number) {
+    return this.teamService.findOne(id);
+  }
 }
