@@ -18,7 +18,6 @@ export class TeamController {
 
   @MessagePattern('findOneTeamUserid')
   findOneByUserId(@Payload() id: number) {
-    console.log('Team', id);
     return this.teamService.findOneByUserId(id);
   }
 }
