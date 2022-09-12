@@ -1,6 +1,5 @@
 export enum RabbitMQ {
-  UserQueue = 'teamUser',
-  TeamQueue = 'teamTeam'
+  TeamQueue = 'team'
 }
 
 export const UserStatus = {
