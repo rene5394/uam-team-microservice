@@ -9,6 +9,12 @@ export class Employee {
     user_id: number;
 
     @Column({ type: 'varchar', nullable: false })
+    hours: string;
+
+    @Column({ type: 'varchar', nullable: false })
+    skills: string;
+
+    @Column({ type: 'varchar', nullable: false })
     position: string;
 
     @Column({ type: 'tinyint', nullable: false })
@@ -19,4 +25,7 @@ export class Employee {
 
     @Column({ type: 'tinyint', nullable: false })
     vertical_position_id: number;
+
+    @Column({ type: 'varchar', nullable: false })
+    dui: string;
 }
