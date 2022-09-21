@@ -2,6 +2,10 @@ export enum RabbitMQ {
   TeamQueue = 'team'
 }
 
+export const paginationLimit = {
+  users: 10
+}
+
 export const UserStatus = {
   active : 1,
   inactive : 3
