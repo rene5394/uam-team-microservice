@@ -1,18 +1,25 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserStatus } from 'src/common/constants';
-import { Repository } from 'typeorm';
+import { createQueryBuilder, DataSource, Repository } from 'typeorm';
 import { User } from './entities/user.entity';
+import { paginationLimit } from 'src/common/constants';
+import { Employee } from '../employee/entities/employee.entity';
+import { Member } from '../member/entities/member.entity';
+import { Team } from '../team/entities/team.entity';
 
 @Injectable()
 export class UserService {
   constructor(
+    private dataSource: DataSource,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>
   ) {}
 
-  async findAll(status: string) {
-    const keys = Object.keys(UserStatus);
+  async findAll(page: number, status: string) {
+    const query = this.dataSource.getRepository(User)
+      .createQueryBuilder("users");
+
     let statusId = 0;
 
     Object.keys(UserStatus).forEach(key => {
@@ -22,10 +29,42 @@ export class UserService {
     });
 
     if (statusId) {
-      return await this.userRepository.find({ where : { status_id : statusId} });
+      query.where("users.status_id = :statusId", { statusId });
     }
 
-    return await this.userRepository.find();
+    if (page) {
+      query
+        .skip((page -1) * paginationLimit.users)
+        .take(paginationLimit.users);
+    }
+
+    return await query.getMany();
+  }
+
+  async findAllEmployees(page: number, status: string) {
+    const query = this.dataSource.getRepository(User)
+      .createQueryBuilder("users")
+      .innerJoin(Employee, "employees", "employees.user_id = users.id");
+
+    let statusId = 0;
+
+    Object.keys(UserStatus).forEach(key => {
+      if (key === status) {
+        statusId = UserStatus[key];
+      }
+    });
+
+    if (statusId) {
+      query.where("users.status_id = :statusId", { statusId });
+    }
+
+    if (page) {
+      query
+        .skip((page -1) * paginationLimit.users)
+        .take(paginationLimit.users);
+    }
+
+    return await query.getMany();
   }
 
   async findOne(id: number) {

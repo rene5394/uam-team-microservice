@@ -7,8 +7,17 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @MessagePattern('findAllUser')
-  findAll(@Payload() status: string) {
-    return this.userService.findAll(status);
+  findAll(@Payload() findParams: any) {
+    const { page, status } = findParams;
+
+    return this.userService.findAll(page, status);
+  }
+
+  @MessagePattern('findAllUserEmployee')
+  findAllEmployees(@Payload() findParams: any) {
+    const { page, status } = findParams;
+    
+    return this.userService.findAllEmployees(page, status);
   }
 
   @MessagePattern('findOneUser')
