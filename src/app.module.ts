@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { DataSource } from 'typeorm';
 import { UserModule } from './api/user/user.module';
 import { TeamModule } from './api/team/team.module';
 import { EmployeeModule } from './api/employee/employee.module';
@@ -26,4 +27,6 @@ import { MemberModule } from './api/member/member.module';
     MemberModule,
   ]
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private dataSource: DataSource) {}
+}
