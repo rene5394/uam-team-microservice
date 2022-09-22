@@ -7,8 +7,10 @@ export class MemberController {
   constructor(private readonly memberService: MemberService) {}
 
   @MessagePattern('findAllMember')
-  findAll() {
-    return this.memberService.findAll();
+  findAll(@Payload() findParams: any) {
+    const { employeeIds } = findParams;
+
+    return this.memberService.findAll(employeeIds);
   }
 
   @MessagePattern('findOneMember')

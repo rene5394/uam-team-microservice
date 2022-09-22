@@ -7,8 +7,10 @@ export class EmployeeController {
   constructor(private readonly employeeService: EmployeeService) {}
 
   @MessagePattern('findAllEmployee')
-  findAll() {
-    return this.employeeService.findAll();
+  findAll(@Payload() findParams: any) {
+    const { userIds } = findParams;
+
+    return this.employeeService.findAll(userIds);
   }
 
   @MessagePattern('findOneEmployee')
