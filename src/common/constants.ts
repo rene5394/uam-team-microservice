@@ -3,7 +3,9 @@ export enum RabbitMQ {
 }
 
 export const paginationLimit = {
-  users: 10
+  users: 10,
+  employees: 10,
+  members: 10
 }
 
 export const UserStatus = {
