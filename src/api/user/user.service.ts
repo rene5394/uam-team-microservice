@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserStatus } from 'src/common/constants';
-import { createQueryBuilder, DataSource, Repository } from 'typeorm';
+import { Brackets, createQueryBuilder, DataSource, Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { paginationLimit } from 'src/common/constants';
 import { Employee } from '../employee/entities/employee.entity';
@@ -41,7 +41,7 @@ export class UserService {
     return await query.getMany();
   }
 
-  async findAllEmployees(page: number, status: string) {
+  async findAllEmployees(text: string, page: number, status: string) {
     const query = this.dataSource.getRepository(User)
       .createQueryBuilder("users")
       .innerJoin(Employee, "employees", "employees.user_id = users.id");
@@ -58,6 +58,15 @@ export class UserService {
       query.where("users.status_id = :statusId", { statusId });
     }
 
+    if (text) {
+      query.andWhere(new Brackets(qb => {
+        qb.andWhere("users.firstname like :name", { name:`${text}%` })
+        .orWhere("users.secondname like :name", { name:`${text}%` })
+        .orWhere("users.lastname like :name", { name:`${text}%` })
+        .orWhere("users.secondlastname like :name", { name:`${text}%` });;
+      }));
+    }
+
     if (page) {
       query
         .skip((page -1) * paginationLimit.users)
@@ -67,6 +76,43 @@ export class UserService {
     return await query.getMany();
   }
 
+  async findAllEmployeesByTeam(teamId: number, text: string, page: number, status: string) {
+    const query = this.dataSource.getRepository(User)
+      .createQueryBuilder("users")
+      .innerJoin(Employee, "employees", "employees.user_id = users.id")
+      .innerJoin(Member, "members", "members.employee_id = employees.id")
+      .where("members.team_id = :teamId", { teamId });
+
+    let statusId = 0;
+
+    Object.keys(UserStatus).forEach(key => {
+      if (key === status) {
+        statusId = UserStatus[key];
+      }
+    });
+
+    if (statusId) {
+      query.andWhere("users.status_id = :statusId", { statusId });
+    }
+
+    if (text) {
+      query.andWhere(new Brackets(qb => {
+        qb.andWhere("users.firstname like :name", { name:`${text}%` })
+        .orWhere("users.secondname like :name", { name:`${text}%` })
+        .orWhere("users.lastname like :name", { name:`${text}%` })
+        .orWhere("users.secondlastname like :name", { name:`${text}%` });;
+      }));
+    }
+
+    if (page) {
+      query
+        .skip((page -1) * paginationLimit.users)
+        .take(paginationLimit.users);
+    }
+
+    return await query.getMany();
+  }
+ 
   async findOne(id: number) {
     return await this.userRepository.findOne({
         relations: {
