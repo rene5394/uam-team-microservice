@@ -73,7 +73,12 @@ export class UserService {
         .take(paginationLimit.users);
     }
 
-    return await query.getMany();
+    const [list, count] = await Promise.all([
+      query.getMany(),
+      query.getCount()
+    ]);
+
+    return { list, count };
   }
 
   async findAllEmployeesByTeam(teamId: number, text: string, page: number, status: string) {
@@ -110,7 +115,12 @@ export class UserService {
         .take(paginationLimit.users);
     }
 
-    return await query.getMany();
+    const [list, count] = await Promise.all([
+      query.getMany(),
+      query.getCount()
+    ]);
+
+    return { list, count };
   }
  
   async findOne(id: number) {
