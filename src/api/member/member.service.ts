@@ -23,6 +23,10 @@ export class MemberService {
     return await query.getMany();
   }
 
+  async findAllByTeamId(teamId: number): Promise<Member[]> {
+    return await this.memberRepository.find({ where: { team_id: teamId } });
+  }
+
   async findOne(id: number) {
     return await this.memberRepository.findOne({ where: { id } });
   }

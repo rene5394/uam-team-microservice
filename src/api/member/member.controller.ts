@@ -13,6 +13,11 @@ export class MemberController {
     return this.memberService.findAll(employeeIds);
   }
 
+  @MessagePattern('findAllTeamId')
+  findAllByTeamId(@Payload() teamId: number) {
+    return this.memberService.findAllByTeamId(teamId);
+  }
+
   @MessagePattern('findOneMember')
   findOne(@Payload() id: number) {
     return this.memberService.findOne(id);
