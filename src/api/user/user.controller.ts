@@ -27,6 +27,13 @@ export class UserController {
     return this.userService.findAllEmployeesByTeam(teamId, text, page, status);
   }
 
+  @MessagePattern('findAllTeamUserEmployeeUserId')
+  findAllTeamEmployeesByUserId(@Payload() findParams: any) {
+    const { userId, text, page, status } = findParams;
+    
+    return this.userService.findAllEmployeesByTeam(userId, text, page, status);
+  }
+
   @MessagePattern('findOneUser')
   findOne(@Payload() id: number) {
     return this.userService.findOne(id);
