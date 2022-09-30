@@ -41,7 +41,7 @@ export class UserService {
     return await query.getMany();
   }
 
-  async findAllEmployees(text: string, page: number, status: string) {
+  async findAllEmployees(text: string, page: number, status: string, userIds: any[]) {
     const query = this.dataSource.getRepository(User)
       .createQueryBuilder("users")
       .innerJoin(Employee, "employees", "employees.user_id = users.id");
@@ -56,6 +56,10 @@ export class UserService {
 
     if (statusId) {
       query.where("users.status_id = :statusId", { statusId });
+    }
+
+    if (userIds) {
+      query.andWhere("users.id IN (:userIds)", { userIds });
     }
 
     if (text) {

@@ -15,9 +15,9 @@ export class UserController {
 
   @MessagePattern('findAllUserEmployee')
   findAllEmployees(@Payload() findParams: any) {
-    const { text, page, status } = findParams;
+    const { userIds, text, page, status } = findParams;
     
-    return this.userService.findAllEmployees(text, page, status);
+    return this.userService.findAllEmployees(text, page, status, userIds);
   }
 
   @MessagePattern('findAllUserEmployeeTeamId')
