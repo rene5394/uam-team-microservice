@@ -1,10 +1,14 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
+import { TeamService } from '../team/team.service';
 import { UserService } from './user.service';
 
 @Controller()
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly teamService: TeamService
+  ) {}
 
   @MessagePattern('findAllUser')
   findAll(@Payload() findParams: any) {
@@ -28,10 +32,11 @@ export class UserController {
   }
 
   @MessagePattern('findAllTeamUserEmployeeUserId')
-  findAllTeamEmployeesByUserId(@Payload() findParams: any) {
+  async findAllTeamEmployeesByUserId(@Payload() findParams: any) {
     const { userId, text, page, status } = findParams;
+    const team = await this.teamService.findOneByUserId(userId);
     
-    return this.userService.findAllEmployeesByTeam(userId, text, page, status);
+    return await this.userService.findAllEmployeesByTeam(team.id, text, page, status);
   }
 
   @MessagePattern('findOneUser')
