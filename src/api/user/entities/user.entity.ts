@@ -38,5 +38,5 @@ export class User {
 
     @OneToMany(() => Image, (image) => image.user)
     @JoinColumn({name: 'user_id'})
-    images: Image[]
+    images: Image[];
 }
