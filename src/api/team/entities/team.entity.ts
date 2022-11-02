@@ -8,6 +8,9 @@ export class Team {
   @Column({ type: 'varchar', nullable: false })
   name: string;
 
+  @Column({ type: 'int', nullable: false })
+  employee_id: number;
+
   @Column({ type: 'tinyint', nullable: false })
   deactivated: number;
 }
