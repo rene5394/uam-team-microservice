@@ -20,4 +20,9 @@ export class TeamController {
   findOneByUserId(@Payload() id: number) {
     return this.teamService.findOneByUserId(id);
   }
+
+  @MessagePattern('findOneTeamCoachUserid')
+  findOneByCoachUserId(@Payload() id: number) {
+    return this.teamService.findOneByCoachUserId(id);
+  }
 }

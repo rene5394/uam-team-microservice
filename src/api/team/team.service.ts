@@ -43,5 +43,11 @@ export class TeamService {
     const member = await this.memberService.findOneByEmployeeId(employee.id);
 
     return await this.teamRepository.findOne({ where: { id: member.team_id } });
+  }
+
+  async findOneByCoachUserId(userId: number) {    
+    const employee = await this.employeeService.findOneByUserId(userId);
+    
+    return await this.teamRepository.findOne({ where: { employee_id: employee.id } });
   }  
 }
