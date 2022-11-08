@@ -7,6 +7,7 @@ import { paginationLimit } from 'src/common/constants';
 import { Employee } from '../employee/entities/employee.entity';
 import { Member } from '../member/entities/member.entity';
 import { Team } from '../team/entities/team.entity';
+import { getSemesterHiredates, getYearlyHiredates } from 'src/common/utils/timeValidation';
 
 @Injectable()
 export class UserService {
@@ -83,6 +84,34 @@ export class UserService {
     ]);
 
     return { list, count };
+  }
+
+  async findAllEmployeesByHireDate() {
+    const hireDates = getYearlyHiredates();
+    console.log('ddd', hireDates);
+    const statusId = UserStatus.active;
+  
+    const query = this.dataSource.getRepository(User)
+      .createQueryBuilder("users")
+      .innerJoin(Employee, "employees", "employees.user_id = users.id")
+      .where("users.status_id = :statusId", { statusId })
+      .andWhere("users.hiredate IN (:hireDates)", { hireDates });
+
+    return query.getMany();
+  }
+
+  async findAllEmployeesBySemesterHireDate() {
+    const hireDates = getSemesterHiredates();
+    console.log('fff', hireDates);
+    const statusId = UserStatus.active;
+  
+    const query = this.dataSource.getRepository(User)
+      .createQueryBuilder("users")
+      .innerJoin(Employee, "employees", "employees.user_id = users.id")
+      .where("users.status_id = :statusId", { statusId })
+      .andWhere("users.hiredate IN (:hireDates)", { hireDates });
+
+    return query.getMany();
   }
 
   async findAllEmployeesByTeam(teamId: number, text: string, page: number, status: string) {
