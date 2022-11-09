@@ -22,7 +22,7 @@ export function getSemesterHiredates() {
   ];
 
   let semesterHireDates = [];
-  const currentDate = new Date('2022-02-28 14:00:00');
+  const currentDate = new Date();
   const timeInSeconds = currentDate.getTime();
   const differenceUTC = getUTCDifference();
   const currentDateTime = new Date(timeInSeconds - (differenceUTC * 60000));
@@ -42,7 +42,7 @@ export function getSemesterHiredates() {
   }
 
   while (year > 2007) {
-    const dateUTC = new Date('2022-02-28 14:00:00');
+    const dateUTC = new Date();
     const timeInSeconds = dateUTC.getTime();
     const date = new Date(timeInSeconds - (differenceUTC * 60000));
     date.setUTCHours(6, 0, 0, 0);
