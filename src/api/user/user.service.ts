@@ -88,7 +88,6 @@ export class UserService {
 
   async findAllEmployeesByHireDate() {
     const hireDates = getYearlyHiredates();
-    console.log('ddd', hireDates);
     const statusId = UserStatus.active;
   
     const query = this.dataSource.getRepository(User)
@@ -102,7 +101,6 @@ export class UserService {
 
   async findAllEmployeesBySemesterHireDate() {
     const hireDates = getSemesterHiredates();
-    console.log('fff', hireDates);
     const statusId = UserStatus.active;
   
     const query = this.dataSource.getRepository(User)
