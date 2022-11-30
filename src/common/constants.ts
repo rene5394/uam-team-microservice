@@ -18,6 +18,11 @@ export const TeamStatus = {
   inactive : 1
 }
 
+export const SupportTeamMemberStatus = {
+  inactive : 0,
+  active : 1
+}
+
 export const RequestStatus = {
   pending : 1,
   approved : 2,
