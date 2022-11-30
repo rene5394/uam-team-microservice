@@ -6,6 +6,8 @@ import { UserModule } from './api/user/user.module';
 import { TeamModule } from './api/team/team.module';
 import { EmployeeModule } from './api/employee/employee.module';
 import { MemberModule } from './api/member/member.module';
+import { SupportTeamModule } from './api/support-team/support-team.module';
+import { SupportTeamMemberModule } from './api/support-team-member/support-team-member.module';
 
 @Module({
   imports: [
@@ -25,6 +27,8 @@ import { MemberModule } from './api/member/member.module';
     TeamModule,
     EmployeeModule,
     MemberModule,
+    SupportTeamModule,
+    SupportTeamMemberModule,
   ]
 })
 export class AppModule {
