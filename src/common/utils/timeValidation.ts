@@ -28,7 +28,7 @@ export function getSemesterHiredates() {
   const currentDateTime = new Date(timeInSeconds - (differenceUTC * 60000));
   currentDateTime.setUTCHours(6, 0, 0, 0);
 
-  let year = currentDateTime.getFullYear() - 1;
+  let year = currentDateTime.getFullYear();
   const month = currentDateTime.getMonth();
   const day = currentDateTime.getDate();
 
@@ -76,7 +76,7 @@ export function getSemesterHiredates() {
     }
 
     year--;
-  }  
+  }
 
   return semesterHireDates;
 }
