@@ -19,9 +19,9 @@ export class UserController {
 
   @MessagePattern('findAllUserEmployee')
   findAllEmployees(@Payload() findParams: any) {
-    const { userIds, text, page, status } = findParams;
+    const { userIds, employeeIds, text, page, status } = findParams;
     
-    return this.userService.findAllEmployees(text, page, status, userIds);
+    return this.userService.findAllEmployees(text, page, status, userIds, employeeIds);
   }
 
   @MessagePattern('findAllUserEmployeeHireDate')
@@ -52,5 +52,10 @@ export class UserController {
   @MessagePattern('findOneUser')
   findOne(@Payload() id: number) {
     return this.userService.findOne(id);
+  }
+
+  @MessagePattern('findOneUserEmployeeId')
+  findOneByEmployeeId(@Payload() employeeId: number) {
+    return this.userService.findOneByEmployeeId(employeeId);
   }
 }

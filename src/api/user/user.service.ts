@@ -42,7 +42,7 @@ export class UserService {
     return await query.getMany();
   }
 
-  async findAllEmployees(text: string, page: number, status: string, userIds: any[]) {
+  async findAllEmployees(text: string, page: number, status: string, userIds: any[], employeeIds: any[]) {
     const query = this.dataSource.getRepository(User)
       .createQueryBuilder("users")
       .innerJoin(Employee, "employees", "employees.user_id = users.id");
@@ -61,6 +61,10 @@ export class UserService {
 
     if (userIds) {
       query.andWhere("users.id IN (:userIds)", { userIds });
+    }
+
+    if (employeeIds) {
+      query.andWhere("employees.id IN (:employeeIds)", { employeeIds });
     }
 
     if (text) {
@@ -161,5 +165,14 @@ export class UserService {
         },
         where: { id }
     });
+  }
+
+  async findOneByEmployeeId(employeeId: number) {
+    const query = this.dataSource.getRepository(User)
+      .createQueryBuilder("users")
+      .innerJoin(Employee, "employees", "employees.user_id = users.id")
+      .where("employees.id = :employeeId", { employeeId });
+
+      return query.getOne();
   }
 }
