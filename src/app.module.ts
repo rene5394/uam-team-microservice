@@ -21,7 +21,10 @@ import { SupportTeamMemberModule } from './api/support-team-member/support-team-
       database: process.env.DATABASE || 'uamapp',
       entities: [],
       autoLoadEntities: true,
-      synchronize: false
+      synchronize: false,
+      extra : {
+        connectionLimit: 100
+      }
     }),
     UserModule,
     TeamModule,
